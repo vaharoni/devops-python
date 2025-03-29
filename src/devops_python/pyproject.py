@@ -9,6 +9,9 @@ class PyprojectData(BaseModel):
 
 
 def get_pyproject_data():
+    """
+    Reads the pyproject.toml file in the current working directory and returns its data.
+    """
     pyproject_path = os.path.join(os.getcwd(), "pyproject.toml")
     with open(pyproject_path, "rb") as f:
         pyproject_data = tomli.load(f)

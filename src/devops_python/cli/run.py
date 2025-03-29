@@ -8,7 +8,7 @@ from colorama import Fore, Style
 
 def run(script_spec: str, env: str, script_args: List[str] = None) -> int:
     """
-    Execute a script from a project's poetry scripts.
+    Execute a script from a project's scripts.
     
     Args:
         script_spec: String in the format "x:y" where x is a project name and y is a script name
@@ -56,8 +56,8 @@ def run(script_spec: str, env: str, script_args: List[str] = None) -> int:
     
     try:
         
-        # Execute the script using poetry run
-        cmd = ["poetry", "run", script_name]
+        # Execute the script using uv run
+        cmd = ["uv", "run", script_name]
         
         # Add any script arguments
         if script_args:

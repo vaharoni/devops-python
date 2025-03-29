@@ -2,7 +2,7 @@ import argparse
 import sys
 from .run import run
 from .run_many import run_many
-from .poetry import poetry
+from .uv import uv
 
 
 def main():
@@ -33,10 +33,10 @@ def main():
     parser_run_many.add_argument('script_args', nargs=argparse.REMAINDER, 
                               help='Additional arguments to pass to the script')
 
-    # Subparser for the 'poetry' command
-    parser_poetry = subparsers.add_parser('poetry', help='Run arbitrary poetry commands on all discovered projects')
-    parser_poetry.add_argument('--env', default='development', help='Environment to load (default: development)')
-    parser_poetry.add_argument('args', nargs=argparse.REMAINDER, help='Arguments to pass to poetry')
+    # Subparser for the 'uv' command
+    parser_uv = subparsers.add_parser('uv', help='Run arbitrary uv commands on all discovered projects')
+    parser_uv.add_argument('--env', default='development', help='Environment to load (default: development)')
+    parser_uv.add_argument('args', nargs=argparse.REMAINDER, help='Arguments to pass to uv')
     
     # Parse the arguments
     args = parser.parse_args()
@@ -48,8 +48,8 @@ def main():
         handle_run(args.arg, args.script_args, args.env)
     elif args.command == 'run-many':
         handle_run_many(args.script_name, args.kill_others_on_fail, args.script_args, args.env)
-    elif args.command == 'poetry':
-        handle_poetry(args.args)
+    elif args.command == 'uv':
+        handle_uv(args.args)
 
 def handle_exec(project, args, env):
     from .exec import exec
@@ -75,8 +75,8 @@ def handle_run_many(script_name, kill_others_on_fail, script_args, env):
     if exit_code != 0:
         sys.exit(exit_code)
 
-def handle_poetry(args):
-    exit_code = poetry(args)
+def handle_uv(args):
+    exit_code = uv(args)
     if exit_code != 0:
         sys.exit(exit_code)
 

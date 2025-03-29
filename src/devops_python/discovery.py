@@ -48,9 +48,7 @@ def find_python_projects(base_dir: str = None) -> Dict[str, Project]:
                 project_name = pyproject_data["project"]["name"]
                 
                 # Extract scripts if they exist
-                scripts = {}
-                if "tool" in pyproject_data and "poetry" in pyproject_data["tool"] and "scripts" in pyproject_data["tool"]["poetry"]:
-                    scripts = pyproject_data["tool"]["poetry"]["scripts"]
+                scripts = pyproject_data["project"].get("scripts", {})
                 
                 # Store the directory containing the pyproject.toml file and its scripts
                 projects[project_name] = Project(name=project_name, path=pyproject_dir, scripts=scripts)

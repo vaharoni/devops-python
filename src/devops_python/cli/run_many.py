@@ -64,7 +64,7 @@ def run_many(script_name: str, env: str, kill_others_on_fail: bool = False, scri
         parallel_cmd.extend(["--halt", "now,fail=1"])
     
     # Add the command to execute
-    script_cmd = f"cd {{2}} && poetry run {script_name}"
+    script_cmd = f"cd {{2}} && uv run {script_name}"
     
     # Add script arguments if provided
     if script_args:

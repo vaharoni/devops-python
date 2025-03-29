@@ -4,30 +4,30 @@ from ..discovery import find_python_projects
 from colorama import Fore, Style
 
 
-def poetry(args: list[str]) -> int:
+def uv(args: list[str]) -> int:
     """
-    Run arbitrary poetry commands on all discovered projects sequentially.
+    Run arbitrary uv commands on all discovered projects sequentially.
     
     Args:
-        args: List of arguments to pass to poetry
+        args: List of arguments to pass to uv
         
     Returns:
         0 if all commands were successful, 1 otherwise
     """
     if not args:
-        print("Error: No poetry command specified")
+        print("Error: No uv command specified")
         return 1
     
     # Check if pyproject.toml exists in the current directory
     if os.path.exists(os.path.join(os.getcwd(), "pyproject.toml")):
-        print(f"{Fore.YELLOW}Found pyproject.toml in current directory, running poetry {' '.join(args)}...{Style.RESET_ALL}")
+        print(f"{Fore.YELLOW}Found pyproject.toml in current directory, running uv {' '.join(args)}...{Style.RESET_ALL}")
         try:
-            result = subprocess.run(["poetry"] + args, check=False)
+            result = subprocess.run(["uv"] + args, check=False)
             if result.returncode != 0:
-                print(f"Error: poetry {' '.join(args)} failed in current directory")
+                print(f"Error: uv {' '.join(args)} failed in current directory")
                 return 1
         except Exception as e:
-            print(f"Error running poetry {' '.join(args)} in current directory: {e}")
+            print(f"Error running uv {' '.join(args)} in current directory: {e}")
             return 1
     
     # Find all projects
@@ -37,7 +37,7 @@ def poetry(args: list[str]) -> int:
         print("No projects found")
         return 1
     
-    print(f"Running 'poetry {' '.join(args)}' for {len(projects)} projects:")
+    print(f"Running 'uv {' '.join(args)}' for {len(projects)} projects:")
     for project_name, project in projects.items():
         print(f"  - {project_name} ({project.path})")
         
@@ -48,15 +48,15 @@ def poetry(args: list[str]) -> int:
             # Change to project directory
             os.chdir(project.path)
             
-            # Run poetry command
-            print(f"\n{Fore.YELLOW}Running poetry {' '.join(args)} in {project.path}...{Style.RESET_ALL}")
-            result = subprocess.run(["poetry"] + args, check=False)
+            # Run uv command
+            print(f"\n{Fore.YELLOW}Running uv {' '.join(args)} in {project.path}...{Style.RESET_ALL}")
+            result = subprocess.run(["uv"] + args, check=False)
             
             if result.returncode != 0:
-                print(f"Error: poetry {' '.join(args)} failed for project '{project_name}'")
+                print(f"Error: uv {' '.join(args)} failed for project '{project_name}'")
                 return 1
         except Exception as e:
-            print(f"Error running poetry command for project '{project_name}': {e}")
+            print(f"Error running uv command for project '{project_name}': {e}")
             return 1
         finally:
             # Restore original directory
