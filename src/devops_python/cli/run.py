@@ -41,6 +41,8 @@ def run(script_spec: str, env: str, script_args: List[str] = None) -> int:
         else:
             print(f"No scripts defined in project '{project_name}'.")
         return 1
+
+    script_str = project.scripts[script_name]
     
     # Load environment variables
     load_env_vars(env)
@@ -57,7 +59,7 @@ def run(script_spec: str, env: str, script_args: List[str] = None) -> int:
     try:
         
         # Execute the script using uv run
-        cmd = ["uv", "run", script_name]
+        cmd = ["uv", "run", script_str]
         
         # Add any script arguments
         if script_args:

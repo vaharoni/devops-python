@@ -50,6 +50,7 @@ def run_many(script_name: str, env: str, kill_others_on_fail: bool = False, scri
     # Prepare the command for GNU parallel
     project_names = [project.name for project in matching_projects]
     project_paths = [project.path for project in matching_projects]
+    script_commands = [project.scripts[script_name] for project in matching_projects]
     
     # Base command
     parallel_cmd = [
@@ -64,7 +65,7 @@ def run_many(script_name: str, env: str, kill_others_on_fail: bool = False, scri
         parallel_cmd.extend(["--halt", "now,fail=1"])
     
     # Add the command to execute
-    script_cmd = f"cd {{2}} && uv run {script_name}"
+    script_cmd = "cd {2} && uv run {3}"
     
     # Add script arguments if provided
     if script_args:
@@ -74,7 +75,7 @@ def run_many(script_name: str, env: str, kill_others_on_fail: bool = False, scri
     parallel_cmd.append(script_cmd)
     
     # Add the project names, paths, and script
-    parallel_cmd.extend([":::", *project_names, ":::", *project_paths])
+    parallel_cmd.extend([":::", *project_names, ":::", *project_paths, ":::", *script_commands])
     
     print(f"{Fore.YELLOW}Executing: {' '.join(parallel_cmd)}\n{Style.RESET_ALL}")
     
