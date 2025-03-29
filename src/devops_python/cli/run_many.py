@@ -56,8 +56,7 @@ def run_many(script_name: str, env: str, kill_others_on_fail: bool = False, scri
         "--link", 
         "--tagstring", 
         "[{1}]",
-        "--ungroup",
-        "--line-buffer"
+        "--ungroup"
     ]
     
     # Add halt option if kill_others_on_fail is True
