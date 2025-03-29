@@ -4,6 +4,7 @@ from typing import List, Optional
 from ..discovery import find_python_projects
 from ..env import load_env_vars, validate_env_vars
 from colorama import Fore, Style
+import shlex
 
 
 def run(script_spec: str, env: str, script_args: List[str] = None) -> int:
@@ -43,6 +44,7 @@ def run(script_spec: str, env: str, script_args: List[str] = None) -> int:
         return 1
 
     script_str = project.scripts[script_name]
+    script_commands = shlex.split(script_str)
     
     # Load environment variables
     load_env_vars(env)
@@ -59,7 +61,7 @@ def run(script_spec: str, env: str, script_args: List[str] = None) -> int:
     try:
         
         # Execute the script using uv run
-        cmd = ["uv", "run", script_str]
+        cmd = ["uv", "run", *script_commands]
         
         # Add any script arguments
         if script_args:
