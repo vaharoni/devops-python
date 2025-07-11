@@ -1,7 +1,7 @@
 import os
 import pytest
 from unittest.mock import patch, mock_open
-from devops_python.env_validation import (
+from devops_runner_python.env_validation import (
     parse_env_yaml,
     validate_env_vars,
     parse_dotenv_file,

@@ -1,9 +1,5 @@
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
 [project]
-name = "devops-python"
+name = "devops-runner-python"
 version = "0.1.11"
 description = ""
 authors = [{ name = "Amit Aharoni", email = "amit.sites@gmail.com" }]
@@ -17,8 +13,16 @@ dependencies = [
   "pyyaml (>=6.0.2,<7.0.0)",
 ]
 
+[project.urls]
+Homepage = "https://github.com/vaharoni/devops-python"
+Issues = "https://github.com/vaharoni/devops-python/issues"
+
 [project.scripts]
-devopspy = "devops_python.cli:main"
+devopspy = "devops_runner_python.cli:main"
 
 [dependency-groups]
 dev = ["pytest>=8.3.5"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
