@@ -25,7 +25,9 @@ def load_env_vars(env: str, cwd: Optional[str] = None) -> None:
     # Load global environment variables
     global_env_path = os.path.join(cwd, 'config', '.env.global')
     load_dotenv(global_env_path)
-    
+
+    os.environ["MONOREPO_ROOT"] = cwd
+    os.environ["MONOREPO_ENV"] = env
 
 def validate_env_vars() -> bool:
     """
